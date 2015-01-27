@@ -8,4 +8,6 @@ twitter_username: jasonheylon
 github_username:  jasonheylon
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet # kramdown
+safe: false
+Time Zone: 'Asia/Shanghai'
