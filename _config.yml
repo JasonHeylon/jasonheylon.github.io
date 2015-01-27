@@ -1,0 +1,11 @@
+# Site settings
+title: Jason Heylon blog
+email: 
+description: > # This is Jason Heylon Blog.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://jasonheylon.com" # the base hostname & protocol for your site
+twitter_username: jasonheylon
+github_username:  jasonheylon
+
+# Build settings
+markdown: kramdown
