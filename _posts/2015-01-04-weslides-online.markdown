@@ -3,7 +3,6 @@ layout: post
 title:  "WeSlides 上线啦"
 date:   2015-01-04 15:49:00
 categories: weslides
-tags: weslides, online, ruby on rails
 comments: true
 ---
 
