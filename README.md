@@ -1,1 +1,0 @@
-##This is [JasonHeylon.com](http://www.jasonheylon.com) blog powered by Jekyll
