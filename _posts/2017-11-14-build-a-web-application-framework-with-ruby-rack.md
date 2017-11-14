@@ -142,9 +142,10 @@ Rack::Handler::WEBrick.run ResponseWrapper.new(SimpleLogger.new(App.new)), Port:
 ```
 这样我们就使用了两个中间件了。
 
-一个请求在我们的程序中的过程：
-客户端请求 => ResponseWrapper => SimpleLogger(打印日志) => App(返回文本) => SimpleLogger => ResponseWrapper(包装html) => 客户端
+简单描述一下一个请求在我们的程序中的过程：
 
+
+![hello_rack_app_flow](http://ozf1ijnw5.bkt.clouddn.com/hello_rack_app_flow.png "hello_rack_app_flow")
 其实很多复杂的Rack框架 都是使用很多层Rack中间件来组装起来的，请求数据从最外层向内传递进去，数据的返回从内再又一层层向上包装处理返回的。但是如果中间件多了的话像 ResponseWrapper.new(SimpleLogger.new(App.new)) 这种写法会很长很长，也很难看了。
 
 ## 使用rackup命令启动rack程序
