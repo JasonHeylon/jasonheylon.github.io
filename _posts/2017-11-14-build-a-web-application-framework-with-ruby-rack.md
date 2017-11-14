@@ -42,7 +42,9 @@ end
 ```
 
 这就是最简单的Hello Rack了，首先http请求进入call方法，方法返回一个数组： Http Code, Header信息, 和body数组。
+
 然后我们需要一个web server来启动我们的Rack程序，WEBrick是Ruby默认安装的一个web server。在程序的最后加入一行来使程序运行起来。
+
 WEBrick 默认绑定的端口是8080，也可以通过Port参数传入指定的端口号。
 
 ```ruby
@@ -63,6 +65,7 @@ ruby app.rb
 Rack中间件也是我们常常能看到的一个名词，我们通过Rack中间件可以处理request和response、处理用户验证、打印日志、缓存、监控....
 
 其实Rack中间件和上面的Hello Rack程序有一些相识，我们来写一个最简单的打印日志的Rack中间件并且应用到Hello Rack程序上。
+
 这个Rack中间件的功能就是在程序接到请求后打印一句话到终端
 
 ```ruby
@@ -95,10 +98,80 @@ Rack::Handler::WEBrick.run SimpleLogger.new(App.new), Port: 8888
 ```shell
 ruby app.rb
 ```
-当使用浏览器访问localhost:8888时，在控制台就可以看到我们写入的输出。That works！Yeah
+当使用浏览器访问localhost:8888时，在控制台就可以看到我们写入的输出。
 ```shell
 [2017-11-14 17:02:23 +0800]received a http request.
 ```
-其实很多复杂的Rack框架 都是使用很多层Rack中间件来组装起来的，请求数据从最外层向内传递进去，数据的返回从内再又一层层向上包装处理返回的。
 
-## 使用Rackup命令启动rack程序
+我们再写一个中间件，来处理返回数据，把我们的Hello Rack包在html body中。
+```ruby
+# response_wrapper.rb
+class ResponseWrapper
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    http_code, headers, body = @app.call(env)
+    html_body = "<html> \
+    <head><title>Hello Rack</title></head> \
+    <body>#{body[0]}</body> \
+    </html>"
+
+    [
+      http_code,
+      headers,
+      [html_body]
+    ]
+  end
+end
+```
+
+在修改app.rb
+```ruby
+# app.rb
+
+require_relative 'response_wrapper'
+...
+Rack::Handler::WEBrick.run ResponseWrapper.new(SimpleLogger.new(App.new)), Port: 8888
+```
+这样我们就使用了两个中间件了。
+
+一个请求在我们的程序中的过程：
+客户端请求 => ResponseWrapper => SimpleLogger(打印日志) => App(返回文本) => SimpleLogger => ResponseWrapper(包装html) => 客户端
+
+其实很多复杂的Rack框架 都是使用很多层Rack中间件来组装起来的，请求数据从最外层向内传递进去，数据的返回从内再又一层层向上包装处理返回的。但是如果中间件多了的话像 ResponseWrapper.new(SimpleLogger.new(App.new)) 这种写法会很长很长，也很难看了。
+
+## 使用rackup命令启动rack程序
+Rack gem中带了rackup命令，它可以更方便的启动rack程序，提供了Rack::Builder的DSL来进行配置，更优雅的使用middleware，而且可以自动检测程序所运行的环境。
+
+rackup 命令接受一个配置文件为参数，配置文件以.ru为后缀。
+
+先把app.rb 改名为app.ru
+
+在app.ru中修改最后一行代码
+
+```ruby
+# app.ru
+
+...
+
+# Rack::Handler::WEBrick.run SimpleLogger.new(App.new), Port: 8888
+
+# 使用中间件使用 use方法
+use ResponseWrapper
+use SimpleLogger
+
+run App.new
+```
+
+在shell中执行
+```shell
+// 参数-p 指定端口
+rackup app.ru -p 8888
+```
+这样程序就启动起来了，并且rackup命令会自动选择合适的web server。
+
+注意的是使用中间件的顺序，先use的中间件会在中间件的上层。
+
+
