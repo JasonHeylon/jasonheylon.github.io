@@ -49,7 +49,6 @@
                   </span>
                 {% endif %}
                 <a class="post-title-link" href="{{ post.url | relative_url }}" itemprop="url">
-                  test
                 {{ post.title | default: __.post.untitled }}
               </a>
             {% else %}{{ post.title }}{% endif %}
