@@ -2,15 +2,20 @@
 layout: post
 title:  "用ruby写一个web程序框架 一起开始于rack"
 date:   2017-11-14 00:00:00
-categories: ruby
+categories: build_a_web_application_framework
+tags: ruby rack framework
 comments: true
 ---
+
+本篇文章是介绍rack很基础性文章。
 
 最近几年都在写使用ruby来进行web开发，得力于ruby界的强壮web框架和丰盛的gem包，大部分时间都在专注于业务代码，一直没有更深入的探寻业务逻辑之下的web框架逻辑，究竟这些框架都做了什么事呢？所以在空闲时期开始了解一些稍微low level的东西，过程中觉得或许我们自己来实际写一个web框架更有利于自己的理解，然后一切开始了。
 
 首选选择一个模仿对象吧，虽然我工作中用到最多的应该是Rails了，但是看着Rails这么庞大的身体，觉得一下子亚历山大，或许小巧的Sinatra是个很好的开始，就从模仿Sinatra开始吧。很快，第一个遇到的东西就是Rack。
 
-## Rack, a modular Ruby webserver interface
+## Rack
+> a modular Ruby webserver interface
+
 写过Ruby代码更准确的是写过Rails，Sinatra程序的人一定都听过rack这个东西。（挺多刚刚开始接触Rails的人常常会把rack和rake弄混，除了长得像应该没有更多的关系了吧）
 
 通俗的说，Rack就是把Http请求引入到Ruby程序，然后接受Ruby程序返回的数据，再把数据返回给客户端的一个接口。
@@ -174,4 +179,62 @@ rackup app.ru -p 8888
 
 注意的是使用中间件的顺序，先use的中间件会在中间件的上层。
 
+本文只是简单讲解了一下rack app/middleware的基本概念和基本使用，要是写一个基于rack的web框架了解这些基本知识还是很有必要的。
 
+## env in call
+
+对了，call方法的参数env到底是什么？ env中包含了很多请求信息，比如请求的动词，访问路径，cookie信息，服务信息等，在实际的web框架中会经常用到的。我们可以打印出来如下：
+```ruby
+{"GATEWAY_INTERFACE"=>"CGI/1.1", "PATH_INFO"=>"/favicon.ico", "QUERY_STRING"=>"", "REMOTE_ADDR"=>"127.0.0.1", "REMOTE_HOST"=>"127.0.0.1", "REQUEST_METHOD"=>"GET", "REQUEST_URI"=>"http://localhost:8888/favicon.ico", "SCRIPT_NAME"=>"", "SERVER_NAME"=>"localhost", "SERVER_PORT"=>"8888", "SERVER_PROTOCOL"=>"HTTP/1.1", "SERVER_SOFTWARE"=>"WEBrick/1.3.1 (Ruby/2.4.2/2017-09-14)", "HTTP_HOST"=>"localhost:8888", "HTTP_CONNECTION"=>"keep-alive", "HTTP_PRAGMA"=>"no-cache", "HTTP_CACHE_CONTROL"=>"no-cache", "HTTP_USER_AGENT"=>"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36", "HTTP_ACCEPT"=>"image/webp,image/apng,image/*,*/*;q=0.8", "HTTP_REFERER"=>"http://localhost:8888/", "HTTP_ACCEPT_ENCODING"=>"gzip, deflate, br", "HTTP_ACCEPT_LANGUAGE"=>"zh-CN,zh;q=0.8,en;q=0.6", "rack.version"=>[1, 3], "rack.input"=>#<Rack::Lint::InputWrapper:0x00007fb3da858aa0 @input=#<StringIO:0x00007fb3da85b2c8>>, "rack.errors"=>#<Rack::Lint::ErrorWrapper:0x00007fb3da858a78 @error=#<IO:<STDERR>>>, "rack.multithread"=>true, "rack.multiprocess"=>false, "rack.run_once"=>false, "rack.url_scheme"=>"http", "rack.hijack?"=>true, "rack.hijack"=>#<Proc:0x00007fb3da858d20@/Users/JasonHeylon/.rvm/gems/ruby-2.4.2/gems/rack-2.0.3/lib/rack/lint.rb:525>, "rack.hijack_io"=>nil, "HTTP_VERSION"=>"HTTP/1.1", "REQUEST_PATH"=>"/favicon.ico", "rack.tempfiles"=>[]}
+```
+
+直接获取env中的内容可能让人不太舒服，Rack也提供了Rack::Request类来更方便使用env信息，生成Rack::Request实例只需要把env传入Rack::Request#new方法。
+```ruby
+request = Rack::Request.new(env)
+
+# url中的参数
+request.params
+# url的访问路径
+request.path_info
+# cookie
+request.cookies
+# 请求方式
+request.request_method
+# 判断是不是get请求
+request.get?
+# 是否ssl
+request.ssl?
+```
+
+是的，有了Rack::Request当然就会有Rack::Response类了，它主要是为了返回相应数据所用。Rack::Response#new接受三个参数： def initialize(body=[], status=200, header={})
+```ruby
+
+response = Rack::Response.new
+# 设置cookie
+response.set_cookie(key, {})
+# 设置http code
+response.status = 404
+# 设置etag
+response.etag = "666"
+# 跳转，第二个参数是http code默认302
+response.redirect(destination_url, 302)
+# 写body
+response.write('This is a rack app')
+
+# 当处理完要返回的信息时，调用finish方法，此方法返回同样也是[http_code, headers, body]
+# 但返回数据的body是Rack::BodyProxy的一个实例，包含实例对象@body就是之前的body数组，并且实在Rack::BodyProxy上实现了实例方法each遍历@body的每个元素
+response.finish
+
+
+# 比如之前的Hello Rack可以改写使用Rack::Response的返回
+
+resp = Rack::Response.new(env)
+
+resp.status = 200
+resp.set_header('Content-Type', 'text/html')
+resp.write('Hello Rack')
+resp.finish
+
+```
+
+待续。。。。:bowtie:
