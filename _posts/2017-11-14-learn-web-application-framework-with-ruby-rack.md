@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "用ruby写一个web程序框架 1 -- 开始于rack"
+title:  "学习ruby世界的web程序框架 1 -- 开始于rack"
 date:   2017-11-14 00:00:00
 categories: learn_web_application_framework_with_ruby
 tags: ruby rack framework
