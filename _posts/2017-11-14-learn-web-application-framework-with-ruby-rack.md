@@ -2,16 +2,14 @@
 layout: post
 title:  "用ruby写一个web程序框架 1 -- 开始于rack"
 date:   2017-11-14 00:00:00
-categories: build_a_web_application_framework
+categories: learn_web_application_framework_with_ruby
 tags: ruby rack framework
 comments: true
 ---
 
 本篇文章是介绍rack很基础性文章。
 
-最近几年都在写使用ruby来进行web开发，得力于ruby界的强壮web框架和丰盛的gem包，大部分时间都在专注于业务代码，一直没有更深入的探寻业务逻辑之下的web框架逻辑，究竟这些框架都做了什么事呢？所以在空闲时期开始了解一些稍微low level的东西，过程中觉得或许我们自己来实际写一个web框架更有利于自己的理解，然后一切开始了。
-
-首选选择一个模仿对象吧，虽然我工作中用到最多的应该是Rails了，但是看着Rails这么庞大的身体，觉得一下子亚历山大，或许小巧的Sinatra是个很好的开始，就从模仿Sinatra开始吧。很快，第一个遇到的东西就是Rack。
+最近几年都在写使用ruby来进行web开发，得力于ruby界的强壮web框架和丰盛的gem包，大部分时间都在专注于业务代码，一直没有更深入的探寻业务逻辑之下的web框架逻辑，究竟这些框架都做了什么事呢？所以在空闲时期开始了解一些稍微low level的东西，很快，第一个遇到的东西就是Rack。
 
 ## Rack
 > a modular Ruby webserver interface
