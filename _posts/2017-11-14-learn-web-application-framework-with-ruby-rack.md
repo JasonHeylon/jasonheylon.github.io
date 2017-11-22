@@ -12,6 +12,7 @@ comments: true
 最近几年都在写使用ruby来进行web开发，得力于ruby界的强壮web框架和丰盛的gem包，大部分时间都在专注于业务代码，一直没有更深入的探寻业务逻辑之下的web框架逻辑，究竟这些框架都做了什么事呢？所以在空闲时期开始了解一些稍微low level的东西，很快，第一个遇到的东西就是Rack。
 
 ## Rack
+
 > a modular Ruby webserver interface
 
 写过Ruby代码更准确的是写过Rails，Sinatra程序的人一定都听过rack这个东西。（挺多刚刚开始接触Rails的人常常会把rack和rake弄混，除了长得像应该没有更多的关系了吧）
@@ -19,6 +20,7 @@ comments: true
 通俗的说，Rack就是把Http请求引入到Ruby程序，然后接受Ruby程序返回的数据，再把数据返回给客户端的一个接口。
 
 ## 第一个Rack程序
+
 Rack在接收http请求后会调用Ruby Object的call方法，并传入唯一参数，一般叫env，其中包含客户端的请求信息等，call方法的返回数据就会展现到客户端。那么 写一个基于Rack的web程序就是写这个Ruby Object的过程。
 
 下面来写一个最简单的基于Rack的web程序。

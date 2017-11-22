@@ -2,7 +2,7 @@
 layout: post
 title:  "学习ruby世界的web程序框架（二） -- 实现最简单的一个web框架"
 date:   2017-11-15 00:00:00
-categories: build_a_web_application_framework
+categories: learn_web_application_framework_with_ruby
 tags: ruby rack framework sinatra
 comments: true
 ---
