@@ -12,8 +12,7 @@ comments: true
 
 ## 响应一个get请求
 首先给这个框架起个名字 -- Panama，最近这首歌还是挺流行的。Panama主要模仿Sinatra的DSL来实现的。
-
-首先我们先写出程序逻辑吧，当请求首页时，页面返回 Hello Panama。 非常适合第一个完成的任务。
+我们先写出程序逻辑吧，当请求首页时，页面返回 Hello Panama。 非常适合第一个完成的任务。
 
 ```ruby
 # app.rb

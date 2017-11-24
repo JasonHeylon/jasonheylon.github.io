@@ -6,9 +6,8 @@ categories: ruby
 comments: true
 ---
 
-在sublime中默认是不会把tab转换成空格(blankspace)的, 这样的代码push到github后，如果github web页面查看代码将会让人抓狂的。
-
-所以在sublime中一定要写下如下设置， 一定要
+在sublime中默认是不会把tab转换成空格(blankspace)的, 这样的代码push到github后排版很有问题。
+所以要在subline里设置
 
 {% highlight ruby %}
   // Set to true to insert spaces when tab is pressed
