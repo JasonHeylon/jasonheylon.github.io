@@ -175,7 +175,7 @@ class ShoppingCart < ApplicationRecord
   has_many :items
 
   def total_price
-    Rails.cache.fetch "#{cache_key}", expires_in: 6.hours do
+    Rails.cache.fetch "#{cache_key/total_price}", expires_in: 6.hours do
       # loop item sum price
     end
   end
