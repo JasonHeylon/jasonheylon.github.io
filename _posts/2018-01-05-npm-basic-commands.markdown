@@ -7,16 +7,19 @@ comments: true
 ---
 
 - 查看当前版本
+
 ```bash
 npm --version
 ```
 
 - 升级npm
+
 ```bash
 npm i -g npm to update
 ```
 
 - 安装与删除npm包
+
 ```bash
 # 当前目录安装
 npm install package-name
@@ -63,16 +66,19 @@ npm update package_name
 ```
 
 - 查找npm包
+
 ```bash
 npm search express
 ```
 
 - 初始化项目
+
 ```bash
 npm init
 ```
 
 - 列出已将安装的npm包
+
 ```bash
 # 全局
 npm list --global
@@ -95,10 +101,10 @@ npm ls -l
 npm home package_name
 # 查看包的Github repo
 npm repo package_name
-
 ```
 
 - 查看是否有更新的包
+
 ```bash
 # 当前目录
 npm outdated
@@ -110,6 +116,7 @@ npm outdated --prod
 ```
 
 - 移除没有使用的包
+
 ```bash
 npm prune
 
@@ -118,21 +125,25 @@ npm prune --production
 ```
 
 - 移除重复
+
 ```bash
 npm dedupe
 ```
 
 - 列出缓存
+
 ```bash
 npm cache ls
 ```
 
 - 删除缓存
+
 ```bash
 npm cache clean -f
 ```
 
-开启自动完成
+- 开启自动完成
+
 ```bash
 npm completion >> ~/.bashrc
 npm completion >> ~/.zshrc
