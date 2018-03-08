@@ -6,7 +6,7 @@ categories: security
 comments: true
 ---
 
-如果你现在在使用Rails进行开发，你就很可能就正在使用CSRF protection。它几乎是在[Rails问世的时候就有了](https://github.com/rails/rails/commit/4e3ed5bc44f6cd20c9e353ab63fd24b92a7942be)，而且就像一些其他的Rails特性一样，它会使你的生活更加美好，基本上你都不用考虑它具体做了什么。
+如果你现在在使用Rails进行开发，你很可能就正在使用CSRF protection。它几乎是在[一开始的时候就有的特性](https://github.com/rails/rails/commit/4e3ed5bc44f6cd20c9e353ab63fd24b92a7942be)，而且就像一些其他的Rails特性一样，它会使你的生活更加美好，基本上你都不用考虑它具体做了什么。
 
 简单来说，跨站请求伪造 (Cross-site request forgery，通常缩写为CSRF)就是一个未认证用户伪造了一个数据请求并把它发送到服务器，让服务器认为这个请求是发自一个已认证用户。Rails会生成一个唯一的token，并且在每一次接到客户端请求时对请求进行身份验证（注：可以简单说验证这个请求是不是在我们的网站上正常发起的），以避免受到CSRF攻击。
 
