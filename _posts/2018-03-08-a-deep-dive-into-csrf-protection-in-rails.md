@@ -194,7 +194,7 @@ def valid_authenticity_token?(session, encoded_masked_token) # :doc:
 end
 ```
 
-首先，我们需要对已经被Base64编码过的字符串进行解码，解码后我们得到了被混淆过的token，然后去掉之前加入的混淆（去掉之前拼接进去的一次性密钥），再将得到的token与session中的token进行对比：
+首先，我们需要对已经被Base64编码过的字符串进行解码，解码后我们得到了被混淆过的token，然后去掉之前加入的混淆，再将得到的token与session中的token进行对比：
 
 ```ruby
 def unmask_token(masked_token) # :doc:
@@ -222,5 +222,6 @@ end
 我认为CSRF protection的实现是一个很好的对代码进行职责拆分的例子，通过创建一个module来暴露一个简单的而稳定的公共接口，底层的实现可以随意做一些小修改也不会影响到其余的源代码 -- 而且你可以看到在这些年Rails团队为CSRF protection添加的一些功能，就比如 per-form tokens。
 
 在每一次深入Rails源码的过程中我都会学到很多。我希望这些也会激励着你，在遇到一些Rails魔法的时候，去看一看魔法下面的真实样子吧。
+
 
 英文原文: [A Deep Dive into CSRF Protection in Rails](https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef)
