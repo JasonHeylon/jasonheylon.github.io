@@ -19,7 +19,7 @@ comments: true
 
 Rails中CSRF分别存储在两个地方。一个唯一的token会被插入到HTML中。同时会有一个相同的token会被储存在session cookie中。当用户发送一个POST请求时，会把CSRF token从HTML中拿出来放到请求中发送到服务器。Rails会比对session cookie中的token 和 请求中带有的从HTML获取的token 是否匹配。
 
-![Rails对两个CSRF进行比对](http://ozf1ijnw5.bkt.clouddn.com/rails_csrf_basic.png "Rails对两个CSRF进行比对")
+![Rails对两个CSRF进行比对](/assets/posts/2018-03-08-a-deep-dive-into-csrf-protection-in-rails/rails_csrf_basic.png "Rails对两个CSRF进行比对")
 
 # 如何使用
 
@@ -114,7 +114,7 @@ end
 
 首先，我们生成了一次性密钥（one-time pad），我们将要使用它来加密token。[一次性密钥](https://en.wikipedia.org/wiki/One-time_pad)是一种 使用随机生成的密钥来对定长的纯文本进行加密的方法，并且需要这个密钥对已经加密过的消息进行解密操作。之所以它被称作“一次性”密钥，是因为每以个密钥只用于加密一个文本，然后就会被销毁。Rails就是为每一个新的CSRF token都重新生成一个一次性密钥，然后使用它来对token进行 XOR 按位异或操作。再将一次性密钥拼接到上一步得到的字符串前面进行混淆，然后使用Base64进行编码，这样就可以把加密好的token返回到页面中了。
 
-![Rails CSRF 加密过程](http://ozf1ijnw5.bkt.clouddn.com/rails_csrf_encrypt.png "Rails CSRF 加密过程")
+![Rails CSRF 加密过程](/assets/posts/2018-03-08-a-deep-dive-into-csrf-protection-in-rails/rails_csrf_encrypt.png "Rails CSRF 加密过程"){:class="img-responsive"}
 
 当这些操作完成后，加密好的认证token就会返回到堆栈中，回传到application模板中：
 ```html
