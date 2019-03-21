@@ -155,6 +155,8 @@ $ kubectl label pods my-pod app-
 ```bash
 # Scale out
 $ kubectl scale --replicas=3 deployment/nginx-app
+# Update deployment and record command in history meanwile
+$ kubectl apply -f deployment.yml --record=true
 # online rolling upgrade
 $ kubectl rollout app-v1 app-v2 --image=img:v2
 # Roll backup
@@ -162,13 +164,15 @@ $ kubectl rollout app-v1 app-v2 --rollback
 # List rollout
 $ kubectl get rs
 # Check update status
-$ kubectl rollout status deployment/nginx-app
+$ kubectl rollout status deployment nginx-app
 # Check update history
-$ kubectl rollout history deployment/nginx-app
+$ kubectl rollout history deployment nginx-app
 # Pause/Resume
-$ kubectl rollout pause deployment/nginx-deployment, resume
+$ kubectl rollout pause deployment nginx-deployment, resume
 # Rollback to previous version
-$ kubectl rollout undo deployment/nginx-deployment
+$ kubectl rollout undo deployment nginx-deployment
+# Rollback to specfic version, we can find version in rollout history command
+$ kubectl rollout undo deployment nginx-deployment --to-revision=1
 ```
 
 ## commands about Service
