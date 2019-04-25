@@ -55,22 +55,20 @@ autorun(() => {
 dep.notify()
 // should log: "updated"
 
-
 // --------
-
 
 window.Dep = class Dep {
   constructor () {
     this.subscribers = new Set()
   }
-  
+
   depend () {
     if (activeUpdate) {
       this.subscribers.add(activeUpdate)
-      
+
     }
   }
-  
+
   notify () {
     this.subscribers.forEach(sub => sub())
   }
@@ -85,7 +83,7 @@ function autorun (update) {
     update()
     activeUpdate = null
   }
-  
+
   wrappedUpdate()
 }
 
@@ -109,9 +107,7 @@ autorun(() => {
 state.count++
 // should log "count is: 1"
 
-
 ```
-
 
 ## Plugins
 
@@ -147,14 +143,13 @@ $options // merged options
         message: 'foo must be greater than one'
       }
     }
-  
+
   })
-  
+
   vm.foo = 0 // should log "foo must be greater than one"
-  
-  
+
   // ------
-  
+
   const RulesPlugin = {
     install (Vue) {
       Vue.mixin({
@@ -162,20 +157,20 @@ $options // merged options
           if (this.$options.rules){
             Object.keys(this.$options.rules).forEach(key => {
               const rule = this.$options.rules[key]
-              
+
               this.$watch(key, (newValue) => {
                 const result = rule.validate(newValue)
                 if (!result) {
                   console.log(rule.message)
                 }
               })
-            }) 
+            })
           }
         }
       })
     }
   }
-  
+
   Vue.use(RulesPlugin)
 
 ```
@@ -200,6 +195,7 @@ Render Function
 
 
 * Actual DOM
+
 ```javascript
 document.createELement('Div')
 // "[object HTMLDivElement]"
@@ -207,11 +203,13 @@ document.createELement('Div')
 > Browser Native Object (expensive)
 
 * Virtual DOM
+
 ```javascript
 vm.$createElement('div')
 // { tag: 'div', data: {.attrs: {}, ... }, children: [] }
 
 ```
+
 > Plain JavaScript Object (cheap)
 
 
@@ -230,8 +228,7 @@ export default {
 
 ```
 
-
-### Dynamically Render Tags 
+### Dynamically Render Tags
 
 ```html
 <div id="app">
@@ -338,7 +335,7 @@ const Avatar = {
 }
 
 function withAvatarURL (InnerComponent) {
-  // we also can do some optimizations here, eg: create an object to cache avatar urls.  
+  // we also can do some optimizations here, eg: create an object to cache avatar urls.
   return {
     props: ['username'],
     data () {
@@ -489,7 +486,6 @@ In this situation, we can make the state and alteration together in one object. 
 
 ```javascript
 function createStore ({ state, mutations }) {
-  
   return new Vue({
     data: { state },
     methods: {
@@ -535,7 +531,6 @@ new Vue({
 
 
 ```javascript
-
 function app ({ el, model, view, actions }) {
   const wrappedActions = {}
 
@@ -717,16 +712,15 @@ const app = new Vue({
     let props = {}
 
     compiledRoutes.some(route => {
-  const match = route.regex.exec(path)
-  if (match) {
-    componentToRender = route.component
+      const match = route.regex.exec(path)
+      if (match) {
+        componentToRender = route.component
 
-    dynamicSegments.forEach((segment, index) => {
-    props[segment.name] = match[index + 1]
-})
-  }
-})
-
+        dynamicSegments.forEach((segment, index) => {
+          props[segment.name] = match[index + 1]
+        })
+      }
+    })
 
     return h(‘div’, [
       h(componentToRender, { props }),
@@ -760,7 +754,7 @@ const app = new Vue({
       {{ error }}
     </li>
   </ul>
-  
+
   <input type=“submit” :disabled=“!$v.valid”>
   </form >
 </div>
@@ -826,7 +820,6 @@ new Vue({
 
 ## I18n
 ### Internationalization Approaches
-
 
 
 ```html
