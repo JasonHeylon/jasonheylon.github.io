@@ -65,7 +65,6 @@ window.Dep = class Dep {
   depend () {
     if (activeUpdate) {
       this.subscribers.add(activeUpdate)
-
     }
   }
 
@@ -119,17 +118,13 @@ function (Vue, options) {
 }
 
 
-
 Vue.mixin(options)
 // apply to all Vue component after mixin
 
 $options // merged options
 
 
-
-
 ```
-
 
 
 ### simple plugin
@@ -143,7 +138,6 @@ $options // merged options
         message: 'foo must be greater than one'
       }
     }
-
   })
 
   vm.foo = 0 // should log "foo must be greater than one"
@@ -383,9 +377,9 @@ new Vue({
 ```javascript
 new Vue({
   el: “#app”,
-	data: { counter: 0 }
+  data: { counter: 0 }
   components: {
-	  Counter: {
+    Counter: {
       props: [‘count’],
       template: ‘<div>{{ count }}</div>’
     }
@@ -424,7 +418,7 @@ const Counter = {
 }
 
 new Vue({
-	el: “#app”.
+  el: “#app”.
   components: { Counter },
   methods: {
     inc () {
@@ -462,7 +456,7 @@ const Counter = {
 }
 
 new Vue({
-	el: “#app”.
+  el: “#app”.
   components: { Counter },
   methods: {
     inc () {
@@ -767,20 +761,20 @@ const validationPlugin = {
       computed () {
         $v () {
           const rules = this.$options.validations
-	        let valid = true
-	        const errors = []
+          let valid = true
+          const errors = []
 
-	        Object.keys(rules).forEach(key => {
-	          const rule = rules[key]
-	          const value = this[key]
-	          const result = rule.validate(value)
-	          if (!result) {
-	            valid = false
-	            errors.push(rule.message(key, value))
-	          }
-	        }
-	      }
-		}
+          Object.keys(rules).forEach(key => {
+            const rule = rules[key]
+            const value = this[key]
+            const result = rule.validate(value)
+            if (!result) {
+              valid = false
+              errors.push(rule.message(key, value))
+            }
+          }
+        }
+      }
     })
   }
 }
