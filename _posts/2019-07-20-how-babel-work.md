@@ -174,13 +174,6 @@ module.exports = function() {
 其中为了更好的理解AST可以使用[astexplorer](https://astexplorer.net/#/gist/5f425ac9eafc8c2610098c479af139c5/latest), 它可以实时展示JavaScript转换后等到的AST
 
 
-
-待续...
-
-
-
-
-
 ### @babel/cli
 上面的例子中都是在代码中进行编译，Babel也提供了cli工具：
 ```bash
@@ -221,9 +214,217 @@ module.exports = function (api) {
 ```
 
 
+## babel-polyfill 和 core-js + @babel/plugin-transform-runtime
 
+### 为什么需要polyfill
+
+babel对新ECMAScript 的编译有一个问题就是像Set、Map、Promise、Symbol这种新特性，Balbel本事是无法进行向底版本转义。
+```javascript
+// lib/index.js
+const s = new Set([1, 2, 3]);
+```
+
+在进行编译后得到：
+```javascript
+var s = new Set([1, 2, 3]);
+```
+
+这时就需要使用[polyfill](https://developer.mozilla.org/zh-CN/docs/Glossary/Polyfill)了, Babel7.4.0版本之后官方就是用`core-js` + `@babel/plugin-transform-runtime` 替代了原来的`@babel/polyfill`。
+
+- [core-js](https://github.com/zloirock/core-js) 提供了新语法的polyfill
+- [@babel/plugin-transform-runtime](https://babeljs.io/docs/en/babel-plugin-transform-runtime) 提供一个沙盒环境，避免polyfill污染全局环境。
+
+### 使用
+
+在安装core-js(此处安装的是core-js@3)和@babel/plugin-transform-runtime后进行配置, 将`@babel/plugin-transform-runtime`加入到plugins数组中
+
+> core-js@2 只支持全局变量的调用, 如`Promise`，core-js@3 支持实例属性的调用，如`[].includes`
+
+```javascript
+// .babelrc.js
+module.exports = function (api) {
+  api.cache(true);
+
+  const presets = [ '@babel/preset-env' ];
+  const plugins = [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": '3' // 指定core-js 版本,
+      }
+    ]
+  ];
+
+  return {
+    presets,
+    plugins
+  };
+}
+```
+
+编译后代码
+
+```javascript
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+var _set = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/set"));
+
+var s = new _set["default"]([1, 2, 3])
+```
 
 
 ## 如何开发一个 Babel 插件
 
-## Babel在前端项目中的使用
+babel插件模板：
+
+```javascript
+module.exports = function({ types: t }) {
+  return {
+    visitor: {
+      Identifier(path) {
+
+      },
+      // ...
+    }
+  }
+}
+```
+其中方法的参数types：[Babel Types](https://babeljs.io/docs/en/6.26.3/babel-types)
+
+plugin的本质就是在visitor中对整个代码的AST进行调整。
+
+### 例子
+
+比如我们对于字符串变量进行更改变量名为 原变量名+"Str"后缀。
+```javascript
+// 源码
+const name = 'Babel'
+console.log('Hello', name);
+
+// 预期编译后为
+const nameStr = 'Babel'
+console.log('Hello', nameStr);
+```
+
+首先完成plugin文件`strVariable.js`， 方案为：
+1. 通过使用 VariableDeclarator 获取变量声明节点
+2. 判断定义变量的初始化值为字符串
+3. 将变量名追加"Str"后缀
+
+```javascript
+// ./src/strVariable.js
+module.exports = function ({ type: t}) {
+  return {
+    visitor: {
+      VariableDeclarator(path) {
+        if (path.node.init.type === 'StringLiteral') {
+          path.node.id.name = path.node.id.name + "Str"
+        }
+      }
+    }
+  }
+}
+
+```
+
+配置使用plugin
+```javascript
+// ./src/.babelrc.js
+const strVariable = require('./strVariable');
+module.exports = function (api) {
+  const presets = [
+  ];
+  const plugins = [
+    strVariable,
+  ];
+  return {
+    presets,
+    plugins
+  };
+}
+
+```
+编译后的输出如下：
+
+```javascript
+const textStr = "Hello Babel";
+
+function main() {
+  console.log(text);
+}
+```
+
+发现在变量声明时的变量名改动成功了，但是后面调用时的名称也需要修改，这时就需要scope.rename重命名了, 可以查询[Babel-handbook Scope](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md#scope)
+
+我们将`path.node.id.name = path.node.id.name + "Str"` 改为`path.scope.rename(path.node.id.name, path.node.id.name + 'Str')`
+
+再次编译 => ok！
+
+### 例子2
+
+比如将正则表达式变量定义提升到文件最上面的Babel Plugin
+```javascript
+module.exports = function({ types: t }) {
+  return {
+    visitor: {
+      RegExpLiteral(path) {
+        const variableName = path.parent.id.name;
+        const newIdentifier = path.scope.generateUidIdentifier(variableName);
+
+        const variableDeclaration = t.variableDeclaration("const",
+          [
+            t.variableDeclarator(newIdentifier, path.node)
+          ]
+        );
+
+        const program = path.findParent(parent => t.isProgram(parent));
+        path.scope.rename(variableName, newIdentifier.name);
+        program.node.body.unshift(variableDeclaration);
+        path.parentPath.remove();
+      }
+    }
+  };
+};
+```
+
+源码
+```javascript
+getVersion('3.2.6')
+function getVersion(versionString) {
+  const versionRegex = /(\d+)\.(\d+).(\d+)/;
+  const [, major, minor, path] = versionRegex.exec(versionString);
+
+  return { major, minor, path };
+}
+```
+
+编译后
+```javascript
+const _versionRegex = /(\d+)\.(\d+).(\d+)/;
+getVersion('3.2.6');
+
+function getVersion(versionString) {
+  const _versionRegex = /(\d+)\.(\d+).(\d+)/;
+
+  const [, major, minor, path] = _versionRegex.exec(versionString);
+
+  return {
+    major,
+    minor,
+    path
+  };
+}
+```
+
+[Babel Types](https://babeljs.io/docs/en/6.26.3/babel-types)
+
+
+相关连接s:
+
+- [JAVASCRIPT AST VISUALIZER](https://resources.jointjs.com/demos/javascript-ast) 一个做可视化插件的公司做的AST可视化演示。
+- [ast explorer](https://astexplorer.net/) 实时AST编译器，包含eslint、babylon等解析器
+- [babel handbook](https://github.com/jamiebuilds/babel-handbook) babel手册 有中文版
+- [EmberConf 2016: How to Build a Compiler by James Kyle](https://www.youtube.com/watch?v=Tar4WgAfMr4) James Kyle 在EmberConf2016的演讲 如何构建一个编译器
+- [ESLint: Working with Plugins](https://eslint.org/docs/developer-guide/working-with-plugins) eslint的插件开发
