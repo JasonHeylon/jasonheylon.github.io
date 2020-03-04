@@ -1,28 +1,57 @@
-title: Jason Heylon Blog
-description: Long Form Jekyll theme built with SASS / COMPASS / SUSY
 
-url: http://blog.jasonheylon.com
+
+# ----------- CONFIGURABLE START -----------
+title:            "Jason Heylon Blog"
+description:      "other"
+url:              http://blog.jasonheylon.com # Site url, without a slash at the end.
+signoff:          "Jason Heylon" # Your name
+facebook_appid:   "jasonheylon" # APP ID for like button, remove from /_includes/share.html if unwanted.
+google_analytics: "UA-58263416-1" # Set tracking, remove from /javascripts/basic.js if unwanted.
+share:            false # Turn on twitter and facebook share buttons
+
+links:
+  - name:         Posts
+    url:          /
+    external:     false
+  - name:         About me
+    url:          /about
+    external:     false
+# ------------ CONFIGURABLE END ------------
 baseurl: ""
 paginate_path: "blog/page:num/"
 permalink: /:year/:month/:day/:title.html
 
-markdown: kramdown
-highlighter: rouge
-plugins: [jekyll-paginate]
-paginate: 10
+defaults:
+  - values:
+      layout: "default"
+posts:
+  - values:
+      layout: "default"
 
-navigation:
-  - title: Home
-    url: /index.html
-  - title: About
-    url: /about.html
-  # - title: Contact
-  #   url: /contact
 
-social:
-  github: jasonheylon
-  # twitter: jasonheylon
-  facebook: jasonheylon
-  # email: xxx@gmail.com
 
-google_analytics: "UA-58263416-1"
+# url: http://blog.jasonheylon.com
+# baseurl: ""
+# paginate_path: "blog/page:num/"
+# permalink: /:year/:month/:day/:title.html
+
+# markdown: kramdown
+# highlighter: rouge
+# plugins: [jekyll-paginate]
+# paginate: 10
+
+# navigation:
+#   - title: Home
+#     url: /index.html
+#   - title: About
+#     url: /about.html
+#   # - title: Contact
+#   #   url: /contact
+
+# social:
+#   github: jasonheylon
+#   # twitter: jasonheylon
+#   facebook: jasonheylon
+#   # email: xxx@gmail.com
+
+# google_analytics: "UA-58263416-1"
