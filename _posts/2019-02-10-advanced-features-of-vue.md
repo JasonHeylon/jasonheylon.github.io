@@ -811,18 +811,17 @@ new Vue({
 
 ```
 
-
 ## I18n
 ### Internationalization Approaches
 
 
 ```html
-<div id=“app”>
-  <h1>{{ $t(‘welcome-message’) }}</h1>
+<div id='app'>
+  <h1>{ { $t('welcome-message') }}</h1>
 
-  <button>English @click=“changeLang(‘en’)”</button>
-  <button>中文 @click=“changeLang(‘zh’)”</button>
-  <button>Dutch @click=“changeLang(‘nl’)”</button>
+  <button>English @click="changeLang('en')"</button>
+  <button>中文 @click="changeLang('zh')"</button>
+  <button>Dutch @click="changeLang('nl')"</button>
 </div>
 ```
 
