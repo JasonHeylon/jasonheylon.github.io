@@ -36,3 +36,28 @@
 .click-transparent {
   pointer-events: none;
 }
+
+/* custom */
+
+body {
+  font-family: Helvetica, Arial, "PingFang SC", "Noto Sans", Roboto, "Microsoft Yahei", sans-serif;
+}
+.markdown-body {
+  letter-spacing: 0.8px;
+  font-size: 15px;
+}
+
+.markdown-body h1 {
+  text-align: center;;
+}
+
+.markdown-body h2 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.markdown-body img {
+  display: block;
+  max-width: 100%;
+  margin: auto;
+}
