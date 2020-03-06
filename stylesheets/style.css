@@ -37,6 +37,7 @@
   pointer-events: none;
 }
 
+
 /* custom */
 
 body {
@@ -60,4 +61,8 @@ body {
   display: block;
   max-width: 100%;
   margin: auto;
+}
+
+.link:focus {
+  outline: none;
 }
