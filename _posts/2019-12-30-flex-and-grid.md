@@ -141,6 +141,8 @@ comments: true
 - stretch
 - space-evenly
 
+其中`space-evenly`: flex项都沿着主轴均匀分布在指定的对齐容器中。相邻flex项之间的间距，主轴起始位置到第一个flex项的间距,，主轴结束位置到最后一个flex项的间距，都完全一样
+
 ## Flex Item 的属性
 
 ### align-self
@@ -173,4 +175,6 @@ comments: true
 
 ### flex
 
-`flex`属性为 `flex-grow` `flex-shrink`  `flex-basis` 三个的缩写, 如 `flex 1 1 200px`
+`flex`属性为 `flex-grow` `flex-shrink`  `flex-basis` 三个的缩写, 如 `flex: 1 1 200px`
+
+**注：当写作`flex: 1;` 这种缩写时，其完整表达式为 `flex: 1 0 0;`**
