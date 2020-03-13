@@ -6,15 +6,15 @@ categories: frontend
 comments: true
 ---
 
-# 什么是代码利用率(Code Coverage)
+## 什么是代码利用率(Code Coverage)
 
 代码利用率对于前端来说就是在页面被加载展示后，所下载JavaScript和CSS是否被充分利用了，所下载的JavaScript中的代码是否都被执行了，执行的比例。CSS中的每一条样式是否都被渲染了，渲染的比例。
 
-# 为什么需要了解Code Coverage
+## 为什么需要了解Code Coverage
 
 web应用的性能最重要的因素之一就是加载速度，而影响加载速度中最重要的因素就是所需要下载资源的大小，通常来说只加载必要的资源是优化前端性能重要的第一步。
 
-# 如何知道Code Coverage
+## 如何知道Code Coverage
 
 Chrome 提供了一个工具查看Code Coverage。
 
