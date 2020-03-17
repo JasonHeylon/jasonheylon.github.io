@@ -3,9 +3,11 @@ title:            "Jason Heylon Blog"
 description:      "other"
 url:              https://blog.jasonheylon.com # Site url, without a slash at the end.
 signoff:          "Jason Heylon" # Your name
-facebook_appid:   "jasonheylon" # APP ID for like button, remove from /_includes/share.html if unwanted.
-google_analytics: "UA-58263416-1" # Set tracking, remove from /javascripts/basic.js if unwanted.
+# facebook_appid:   "jasonheylon" # APP ID for like button, remove from /_includes/share.html if unwanted.
+# google_analytics: "UA-58263416-1" # Set tracking, remove from /javascripts/basic.js if unwanted.
+google_analytics: "UA-56711568-1" # Set tracking, remove from /javascripts/basic.js if unwanted.
 share:            false # Turn on twitter and facebook share buttons
+plugins:          [jekyll-paginate]
 
 links:
   - name:         Posts
@@ -16,9 +18,17 @@ links:
     external:     false
 # ------------ CONFIGURABLE END ------------
 baseurl: ""
+paginate: 5
 paginate_path: "blog/page:num/"
 permalink: /:year/:month/:day/:title.html
 
 defaults:
   - values:
       layout: "default"
+
+# ------------ Markdown ------------
+# markdown: kramdown
+# kramdown:
+#   highlighter: rouge
+#   input: GFM
+#   syntax_highlighter: rouge
