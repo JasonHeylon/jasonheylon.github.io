@@ -3,8 +3,7 @@ layout: post
 title: "Webpack 基础"
 date: 2019-09-20 00:00:00
 categories: frontend
-comments:
- true
+comments: true
 ---
 
 # 为什么需要Webpack
@@ -747,3 +746,25 @@ Parser在把源文件转换为AST后，对其分析，找到所有的`require`�
 ```javascript
 
 ```
+
+
+# Webapck打包优化
+
+## 使用speed-measure-webpack-plugin检测
+
+## resover优化
+- 必要的alias
+- loader必要的include和exclude
+
+## 缓存相关
+- cache-loader
+- dllplugin
+- HardSourceWebpackPlugin
+
+## thread-loader并发
+
+## 其他
+
+- `resolve.extensions`中只添加必要的少量后缀名，
+- 开发环境下不使用`ExtractTextPlugin`、`image-loader`等不必要的loader和plugin。
+- babel-loader开启cache
