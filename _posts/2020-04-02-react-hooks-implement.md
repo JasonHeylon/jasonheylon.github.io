@@ -597,7 +597,7 @@ export function reconcile(Component, root) {
 
 ```
 
-在
+在React的立即执行函数中将`render` 和`createElement`返回
 ```javascript
 import { render } from './render';
 
@@ -611,7 +611,7 @@ const React = (function () {
 
 这样我们的Hello World就可以渲染了。
 
-![http-request](/assets/posts/2020-04-02/hello-world.jpg)
+![hello-world](/assets/posts/2020-04-02/hello-world.jpg)
 
 我们向页面添加按钮并添加点击事件增加`count`
 
@@ -631,7 +631,8 @@ function Component() {
 }
 ```
 我们发现点击按钮后，页面并没有更新
-![http-request](/assets/posts/2020-04-02/button-count-failed.jpg)
+
+![button-count-failed](/assets/posts/2020-04-02/button-count-failed.jpg)
 
 我们需要一个事件循环去重新渲染页面，我们在React立即执行函数中加入方法，每400ms重新渲染一次。
 ```javascript
@@ -645,7 +646,8 @@ function Component() {
 
 ```
 这样 点击按钮后 数字可以正常改变了
-![http-request](/assets/posts/2020-04-02/button-count-failed.jpg)
+
+![button-count-failed](/assets/posts/2020-04-02/button-count-success.jpg)
 
 
 hooks的强大也是因为我们可以自定义hooks并对代码进行更好的封装与重用。
