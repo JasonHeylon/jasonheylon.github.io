@@ -694,6 +694,6 @@ React.render(<Component />, document.getElementById('app'));
 
 当点击按钮改变count值后，会获取对也页数的CNode论坛的数据。到此，React Hooks基本功能就都已经实现了 yeah!!
 
-ref links:
-[react-hooks-implement](https://github.com/JasonHeylon/react-hooks-implement)
-[jsconf.asia 2005 - react-hooks](https://www.swyx.io/speaking/react-hooks)
+### ref links:
+- [react-hooks-implement](https://github.com/JasonHeylon/react-hooks-implement)
+- [jsconf.asia 2005 - react-hooks](https://www.swyx.io/speaking/react-hooks)
